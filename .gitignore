@@ -1,0 +1,6 @@
+.idea/
+.DS_Store
+out.exe
+.vscode/
+a.out
+test.py
