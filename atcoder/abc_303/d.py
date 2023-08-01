@@ -1,46 +1,21 @@
-# 入力
-X, Y, Z = map(int, input().split())
-S = input()
+x, y, z = map(int, input().split())
+s = input()
 
-# 動的計画法
-time = 0
-caps_lock = False
-for s in S:
-    # aを入力したいとき
-    if s == 'a':
-        # ONのとき
-        if caps_lock:
-            time1 = Y
-            time2 = Z + X
-            if time1 > time2:
-                print('a')
-                time += time1
-            else:
-                print('b')
-                time += time2
-                caps_lock = True
-        # OFFのとき
+dp = [[0, 0] for _ in range(len(s)+1)]
+for i in range(len(s)+1):
+    if i == 1:
+        if s[i-1] == 'A':
+            dp[i][0] = y
+            dp[i][1] = x + z
         else:
-            print('d')
-            time += X
-
-    # Aを入力したいとき
+            dp[i][0] = x
+            dp[i][1] = y + z
     else:
-        # OFFのとき
-        if not caps_lock:
-            time1 = Y
-            time2 = Z + X
-            if time1 > time2:
-                print('e')
-                time += time1
-            else:
-                print('f')
-                time += time2
-                caps_lock = True
-        # ONのとき
+        if s[i-1] == 'A':
+            dp[i][0] = min(dp[i-1][0] + y, dp[i-1][1] + y + z)
+            dp[i][1] = min(dp[i-1][0] + x + z, dp[i-1][1] + x)
         else:
-            print('g')
-            time += X
+            dp[i][0] = min(dp[i-1][0] + x, dp[i-1][1] + x + z)
+            dp[i][1] = min(dp[i-1][0] + y + z, dp[i-1][1] + y)
 
-# 出力
-print(time)
+print(min(dp[len(s)]))

@@ -4,10 +4,12 @@ def is_on_item(now_position, item_position_list):
     
     return False
 
+
 def is_use_item(h, k):
     if h < k:
         return True
     return False
+
 
 def use_item(h, k, now_position, item_position_list):
     if is_use_item(h, k):
@@ -17,15 +19,17 @@ def use_item(h, k, now_position, item_position_list):
     
     return h, item_position_list
 
+
 def get_position_after_move(command, now_position):
     if command == 'R':
-        return (now_position[0]+1, now_position[1])
+        return now_position[0]+1, now_position[1]
     elif command == 'L':
-        return (now_position[0]-1, now_position[1])
+        return now_position[0]-1, now_position[1]
     elif command == 'U':
-        return (now_position[0], now_position[1]+1)
+        return now_position[0], now_position[1]+1
     elif command == 'D':
-        return (now_position[0], now_position[1]-1)
+        return now_position[0], now_position[1]-1
+
 
 # 入力
 # n: 目標移動回数
@@ -47,14 +51,11 @@ for command in S:
     if h < 0:
         break
     now_position = get_position_after_move(command, now_position)
-    #print(now_position)
-    #print(h)
     if is_on_item(now_position, item_position_list):
-        #print('on item!')
         h, item_position_list = use_item(h, K, now_position, item_position_list)
     
 # 出力
-if (h >= 0):
+if h >= 0:
     print('Yes')
 else:
     print('No')
