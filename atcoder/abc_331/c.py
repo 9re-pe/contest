@@ -1,25 +1,26 @@
 n = int(input())
 a = list(map(int, input().split()))
 
-b = sorted([(val, idx) for idx, val in enumerate(a)])
+# インデックスを保持しつつソート
+b = sorted([(a[i], i) for i in range(n)])
 
-# ステップ2: ソートされた配列の累積和を計算
+# 累積和
 s = [0] * (n + 1)
 for i in range(n):
     s[i + 1] = s[i] + b[i][0]
 
-# ステップ3 & 4: 各要素に対して、ソートされた配列での位置を二分探索で見つけ、
-# その要素より大きい数の和を計算
-ans = [0] * n
-for val, original_idx in b:
+ans = []
+for i in range(n):
+    ai = a[i]
+    # 二分探索でaiの次に大きい要素ajを見つける
     left, right = 0, n
     while left < right:
         mid = (left + right) // 2
-        if b[mid][0] <= val:
+        if b[mid][0] <= ai:
             left = mid + 1
         else:
             right = mid
-    # 現在の要素より大きい数の和を計算
-    ans[original_idx] = s[-1] - s[left]
+    # 累積和でaj以上の要素の和をO(1)で計算
+    ans.append(s[-1] - s[left])
 
 print(*ans)
